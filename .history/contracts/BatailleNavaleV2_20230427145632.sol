@@ -3,7 +3,6 @@
 pragma solidity ^0.8.9;
 
 contract BattleShip {
-
     address public player1;
     address public player2;
     uint8[10][10] public player1Board;
@@ -15,7 +14,6 @@ contract BattleShip {
     event GameOver(address winner);
 
     constructor(address _player1, address _player2) {
-        require(_player1 != _player2);
         player1 = _player1;
         player2 = _player2;
         currentPlayer = 1;
@@ -23,17 +21,20 @@ contract BattleShip {
     }
 
     function takeTurn(uint8 x, uint8 y) public {
-        require(msg.sender == player1 || msg.sender == player2, "test tour");
-        require(player1Board[x][y] == 0 && player2Board[x][y] == 0, "Deja toucher");
-        require(currentPlayer == 1 && msg.sender == player1 || currentPlayer == 2 && msg.sender == player2, "test tour");
+        require(msg.sender == player1 || msg.sender == player2, "You are not a player in this game.");
+        require(player1Board[x][y] == 0 && player2Board[x][y] == 0, "This position has already been hit.");
 
         bool hit = false;
         if (currentPlayer == 1) {
-            player2Board[x][y] = hasShip(player2Board, x, y) ? 2 : 1;
-            hit = player2Board[x][y] == 2;
+            player2Board[x][y] = 1;
+            if (hasShip(player2Board, x, y)) {
+                hit = true;
+            }
         } else {
-            player1Board[x][y] = hasShip(player1Board, x, y) ? 2 : 1;
-            hit = player1Board[x][y] == 2;
+            player1Board[x][y] = 1;
+            if (hasShip(player1Board, x, y)) {
+                hit = true;
+            }
         }
 
         emit TurnTaken(msg.sender, x, y, hit);

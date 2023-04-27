@@ -15,7 +15,7 @@ describe("BatailleNavale", function () {
     await bn.deployed();
   });
 
-  it("Permet aux joueurs placer des bateaux", async function () {
+  it("les joueurs peuvent placer des bateaux", async function () {
     await bn.connect(joueur1).placerBateau(0, 0);
     await bn.connect(joueur2).placerBateau(1, 1);
     const bateauJoueur1 = await bn.grille(0, 0);
@@ -28,7 +28,7 @@ describe("BatailleNavale", function () {
     expect(bateauJoueur2.coule).to.equal(false);
   });
 
-  it("Permet aux joueurs d'attaquer des bateaux", async function () {
+  it("les joueurs peuvent attaquer des bateaux", async function () {
     await bn.connect(joueur1).placerBateau(0, 0);
     await bn.connect(joueur2).attaquer(0, 0);
     const bateauJoueur1 = await bn.grille(0, 0);
@@ -37,7 +37,7 @@ describe("BatailleNavale", function () {
     expect(bateauJoueur2.coule).to.equal(true);
   });
 
-  it("Retourne true si tous les bateaux sont coulés", async function () {
+  it("retourne vrai si tous les bateaux sont coulés", async function () {
     await bn.connect(joueur1).placerBateau(0, 0);
     await bn.connect(joueur2).placerBateau(1, 1);
     await bn.connect(joueur2).attaquer(0, 0);
@@ -46,7 +46,7 @@ describe("BatailleNavale", function () {
     expect(partieTerminee).to.equal(true);
   });
 
-  it("Retourne l'adresse du gagnant", async function () {
+  it("retourne l'adresse du gagnant", async function () {
     await bn.connect(joueur1).placerBateau(0, 0);
     await bn.connect(joueur2).placerBateau(1, 1);
     await bn.connect(joueur2).attaquer(0, 0);

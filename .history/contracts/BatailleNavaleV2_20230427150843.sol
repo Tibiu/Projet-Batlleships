@@ -3,7 +3,7 @@
 pragma solidity ^0.8.9;
 
 contract BattleShip {
-
+    
     address public player1;
     address public player2;
     uint8[10][10] public player1Board;
@@ -15,7 +15,7 @@ contract BattleShip {
     event GameOver(address winner);
 
     constructor(address _player1, address _player2) {
-        require(_player1 != _player2);
+        require(_player1 != _player2, "Players cannot be the same.");
         player1 = _player1;
         player2 = _player2;
         currentPlayer = 1;
@@ -23,9 +23,9 @@ contract BattleShip {
     }
 
     function takeTurn(uint8 x, uint8 y) public {
-        require(msg.sender == player1 || msg.sender == player2, "test tour");
-        require(player1Board[x][y] == 0 && player2Board[x][y] == 0, "Deja toucher");
-        require(currentPlayer == 1 && msg.sender == player1 || currentPlayer == 2 && msg.sender == player2, "test tour");
+        require(msg.sender == player1 || msg.sender == player2, "You are not a player in this game.");
+        require(player1Board[x][y] == 0 && player2Board[x][y] == 0, "This position has already been hit.");
+        require(currentPlayer == 1 && msg.sender == player1 || currentPlayer == 2 && msg.sender == player2, "It's not your turn.");
 
         bool hit = false;
         if (currentPlayer == 1) {
